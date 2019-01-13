@@ -1,17 +1,13 @@
 $(() => {
 	console.log('commentsjs loaded');
 	CommentClickHandlers()
-	listenForNewCommentForm()
-	listenForCreateComment()	
-
-
+	newCommentForm()
 })
 
 const CommentClickHandlers = () => {
 	$('a.all_comments').on('click', (e) => {
 		e.preventDefault()
 		let url = e.target.href
-
 		getComments(url)
 	})
 
@@ -33,46 +29,39 @@ const getComments = (url) => {
 		)
 }
 
-const listenForNewCommentForm = () => {
+const newCommentForm = () => {
 	$('a.new_comment').on('click', (event) => {
 		event.preventDefault()
+		event.stopPropagation()
+
+		// let url = 'http://localhost:3000/ajax_new'
 		let url = event.target.href
-		newCommentForm(url)
+
+		$.ajax({
+			url: url,
+			method: 'get'
+		}).done(function (htmlData) {
+			$('div#comment_form').html(htmlData)
+			createComment()
+		})
 	})
 }
 
-function newCommentForm(url) {
-    $.ajax({
-        url: url,
-        method: 'get'
-    }).done(function (data) {
-        $('div#comment_form').html(data)
-        listenForCreateComment()
-    })
-}
-
-const listenForCreateComment = () => {
-	$('input').on("click", (event) => {
+const createComment = () => {
+	$('form#new_comment').on('submit', (event) => {
 		event.preventDefault()
-		let url = event.target.href
-		console.log("listen for submit")
-		submitCommentForm()
+		let data = $('form#new_comment').serialize()
+		let url = event.target.baseURI + '/comments'
 
-	})
-}
-function submitCommentForm(url) {
-	debugger
-	$.ajax({
-		url:url,
-		method: 'post',
-		data: {
-			'comment':{
-				'title': $("#comment_title").value(),
-				'content': $("#comment_content").value(),
-			}
-		}
-	}).done(function (data) {
-		$('#ajax_form').html(data)
+		$.ajax({
+			url: url,
+			method: 'post',
+			data: data
+		}).done(function (response) {
+			let newComment = new Comment(response)
+			let commentHtml = newComment.formatShow()
+			$('div#new_comment_response').html(commentHtml)
+		})
 	})
 }
 

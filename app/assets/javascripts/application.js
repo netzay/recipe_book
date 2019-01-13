@@ -13,6 +13,5 @@
 //= require rails-ujs
 //= require activestorage
 //= require_tree .
-//= require recipes
-//= require comments
+
 

@@ -21,9 +21,9 @@ Rails.application.routes.draw do
   resources :ingredients
 
   resources :recipes do
-    resources :comments, only: [:show, :index, :new, :edit]
+    resources :comments, only: [:show, :index, :new, :edit, :create]
   end
-  resources :comments, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+  resources :comments, only: [:index, :show, :new, :edit, :update, :destroy]
 end
 
 

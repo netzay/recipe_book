@@ -1,7 +1,6 @@
 class CommentsController < ApplicationController
 
   def ajax_new
-    @comment = find_by_id(Comment)
     render :_ajax_new
   end
 
@@ -24,15 +23,17 @@ class CommentsController < ApplicationController
     end
   end
 
+
+
   #create a new comment if the recipe id exists and attach it to that recipe id
   def new
-    if params[:recipe_id] && !Recipe.exists?(params[:recipe_id])
-      redirect_to recipes_path, alert: "Recipe not found."
-    else
+    # if params[:recipe_id] && !Recipe.exists?(params[:recipe_id])
+    #   redirect_to recipes_path, alert: "Recipe not found."
+    # else
       @comment = Comment.new(recipe_id: params[:recipe_id])
       #show me new page without layout
       render :_ajax_new, layout: false
-    end
+    # end
   end
 
   #create a comment and attach it to the current user.
@@ -40,7 +41,8 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.user = current_user
     if @comment.save
-      redirect_to recipe_path(@comment.recipe.id, @comment)
+      render json: @comment
+      # redirect_to recipe_path(@comment.recipe.id, @comment)
     else
       render "recipes/show"
     end
@@ -83,6 +85,6 @@ class CommentsController < ApplicationController
 
   #params for comments
   def comment_params
-    params.require(:comment).permit(:title, :content, :recipe_id)
+    params.require(:comment).permit(:user_id, :title, :content, :recipe_id)
   end
 end
