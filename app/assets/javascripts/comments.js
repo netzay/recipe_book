@@ -50,6 +50,7 @@ const newCommentForm = () => {
 const createComment = () => {
 	$('form#new_comment').on('submit', (event) => {
 		event.preventDefault()
+		event.stopPropagation()
 		let data = $('form#new_comment').serialize()
 		let url = event.target.baseURI + '/comments'
 
@@ -60,7 +61,8 @@ const createComment = () => {
 		}).done(function (response) {
 			let newComment = new Comment(response)
 			let commentHtml = newComment.formatShow()
-			$('div#new_comment_response').html(commentHtml)
+			$('div#new_comment_response').append(commentHtml)
+			$('form#new_comment').remove()
 		})
 	})
 }
