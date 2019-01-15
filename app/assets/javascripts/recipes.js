@@ -26,17 +26,16 @@ const ClickHandlers = () => {
 
 }
 
-
-
 const getRecipes = () => {
 	fetch('recipes.json')
 	.then(res => res.json())
 	.then(recipes => {
-		$('#app-container').html('')
+		$('#all_recipes').html('')
 		recipes.forEach((recipe) => {
 			let newRecipe = new Recipe(recipe)
+			console.log(newRecipe)
 			let recipeHtml = newRecipe.formatIndex()
-			$('#app-container').append(recipeHtml)
+			$('div#all_recipes').append(recipeHtml)
 		})
 	})			
 }

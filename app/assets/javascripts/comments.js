@@ -22,9 +22,8 @@ const getIndexComments = (url) => {
 				$('#app-container').html('')
 				comments.forEach((comment) => {
 					let newComment = new Comment(comment)
-					console.log(newComment.title)
 					let commentHtml = newComment.formatShow()
-					$('div#comment_list').append(commentHtml)
+					$('div#app-container').append(commentHtml)
 				})
 			})
 		)
