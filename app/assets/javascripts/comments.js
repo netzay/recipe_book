@@ -1,5 +1,5 @@
 $(() => {
-	console.log('commentsjs loaded');
+	// console.log('commentsjs loaded');
 	CommentClickHandlers()
 	newCommentForm()
 })
@@ -8,22 +8,23 @@ const CommentClickHandlers = () => {
 	$('a.all_comments').on('click', (e) => {
 		e.preventDefault()
 		let url = e.target.href
-		getComments(url)
+		getIndexComments(url)
 	})
 
 }
 
-const getComments = (url) => {
+
+const getIndexComments = (url) => {
 	let newUrl = url + '.json'
 	fetch(newUrl)
 		.then(res => res.json()
 			.then(comments => {
 				$('#app-container').html('')
 				comments.forEach((comment) => {
-					console.log(comment)
 					let newComment = new Comment(comment)
+					console.log(newComment.title)
 					let commentHtml = newComment.formatShow()
-					$('#app-container').append(commentHtml)
+					$('div#comment_list').append(commentHtml)
 				})
 			})
 		)

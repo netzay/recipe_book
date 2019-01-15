@@ -28,9 +28,7 @@ const ClickHandlers = () => {
 
 
 
-const getRecipes = (url) => {
-		console.log(url)
-
+const getRecipes = () => {
 	fetch('recipes.json')
 	.then(res => res.json())
 	.then(recipes => {

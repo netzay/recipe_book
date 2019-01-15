@@ -28,10 +28,10 @@ class RecipesController < ApplicationController
   #find recipe by id and display
   def show
     set_recipe
-    # respond_to do |f|
-    #   f.html {render :show}
-    #   f.json {render json: @recipe}
-    # end
+    respond_to do |f|
+      f.html {render :show}
+      f.json {render json: @recipe}
+    end
   end
 
 
