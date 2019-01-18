@@ -16,10 +16,19 @@ class CommentsController < ApplicationController
   #find comment based on recipe id
   def show
     @recipe = find_by_id(Recipe)
+    # @comment = Recipe.find(params[:recipe_id]).comments.find(params[:id])    respond_to do |f|
+    #   f.html {render :index}
+    #   f.json {render json: @recipe.comments}
+    # end
+
     if params[:recipe_id]
       @comment = Recipe.find(params[:recipe_id]).comments.find(params[:id])
     else
       @comment = find_by_id(Comment)
+      respond_to do |f|
+        f.html {render :index}
+        f.json {render json: @recipe.comments}
+      end
     end
   end
 

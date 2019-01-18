@@ -1,10 +1,11 @@
 $(() => {
 	// console.log('commentsjs loaded');
-	CommentClickHandlers()
+	allComments()
 	newCommentForm()
+
 })
 
-const CommentClickHandlers = () => {
+const allComments = () => {
 	$('a.all_comments').on('click', (e) => {
 		e.preventDefault()
 		let url = e.target.href
@@ -17,16 +18,19 @@ const CommentClickHandlers = () => {
 const getIndexComments = (url) => {
 	let newUrl = url + '.json'
 	fetch(newUrl)
-		.then(res => res.json()
-			.then(comments => {
-				$('#app-container').html('')
-				comments.forEach((comment) => {
-					let newComment = new Comment(comment)
-					let commentHtml = newComment.formatShow()
-					$('div#app-container').append(commentHtml)
-				})
+	.then(res => res.json()
+		.then(comments => {
+			$('#app-container').html('')
+			comments.forEach((comment) => {
+				let newComment = new Comment(comment)
+				let commentHtml = newComment.formatShow()
+				$('div#app-container').append(commentHtml)
+				showComment()
+
+
 			})
-		)
+		})
+	)
 }
 
 const newCommentForm = () => {
@@ -67,21 +71,50 @@ const createComment = () => {
 	})
 }
 
+const showComment = () => {
+	console.log("showComment")
+	$('a#a_comment').on('click', (event) => {
+		event.preventDefault()	
+		let url = event.target.href
+		console.log(url)
+		fetch(url)
+		.then(res => res.json()
+			.then(comment => {
+				$('#app-container').html('')
+				comments.forEach((comment) => {
+					let newComment = new Comment(comment)
+					let commentHtml = newComment.formatIndex()
+					$('div#app-container').append(commentHtml)
+
+				})
+			})
+		)
+	})
+}
+
 
 class Comment {
-constructor(commentObj) {
-	this.id = commentObj.id
-	this.title = commentObj.title
-	this.content = commentObj.content
-	this.user = commentObj.user
-	this.recipe = commentObj.recipe.id
+	constructor(commentObj) {
+		this.id = commentObj.id
+		this.title = commentObj.title
+		this.content = commentObj.content
+		this.user = commentObj.user
+		this.recipe = commentObj.recipe.id
 	}
 }
 Comment.prototype.formatShow = function () {
 
 	let commentHtml = `
-	<a href= "/recipes/${this.recipe}/comments/${this.id}" data-id="${this.id}"
+	<a href= "/recipes/${this.recipe}/comments/${this.id}" data-id="${this.id}" id= "a_comment"
 	<h5>${this.title}</h5><br>
+	`
+	return commentHtml
+}
+Comment.prototype.formatIndex = function(){
+	let commentHtml = `
+	<h4>${this.title}</h4>
+	<h4>${this.content}</h4>
+	<h4>${this.user}</h4>
 	`
 	return commentHtml
 }
