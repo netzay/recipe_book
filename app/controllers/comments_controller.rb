@@ -33,6 +33,8 @@ class CommentsController < ApplicationController
   end
 
   def next
+    @comment = Recipe.find_by(params[:recipe_id]).comments.find(params[:id])  
+
     @next_comment = @comment.next
     render json: @next_comment
   end
