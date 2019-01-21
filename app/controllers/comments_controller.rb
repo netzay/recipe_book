@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+  before_action :set_comment, only: [:show, :edit, :update, :destroy, :next]
 
   def ajax_new
     render :_ajax_new
@@ -16,22 +17,25 @@ class CommentsController < ApplicationController
   #find comment based on recipe id
   def show
     @recipe = find_by_id(Recipe)
-    # @comment = Recipe.find(params[:recipe_id]).comments.find(params[:id])    respond_to do |f|
-    #   f.html {render :index}
-    #   f.json {render json: @recipe.comments}
-    # end
-
-    if params[:recipe_id]
-      @comment = Recipe.find(params[:recipe_id]).comments.find(params[:id])
-    else
-      @comment = find_by_id(Comment)
+    @comments = Recipe.find(params[:recipe_id]).comments.all
+    @comment = Recipe.find(params[:recipe_id]).comments.find(params[:id])  
+    if @comment  
       respond_to do |f|
         f.html {render :index}
-        f.json {render json: @recipe.comments}
+        f.json {render json: @comment}
+      end
+    else
+      respond_to do |f|
+        f.html {render :index}
+        f.json {render json: @comments}
       end
     end
   end
 
+  def next
+    @next_comment = @comment.next
+    render json: @next_comment
+  end
 
 
   #create a new comment if the recipe id exists and attach it to that recipe id
@@ -95,5 +99,8 @@ class CommentsController < ApplicationController
   #params for comments
   def comment_params
     params.require(:comment).permit(:user_id, :title, :content, :recipe_id)
+  end
+  def set_comment
+    @comment = Comment.find_by(params[:comment_id])
   end
 end

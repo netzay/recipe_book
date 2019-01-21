@@ -3,4 +3,9 @@ class Comment < ActiveRecord::Base
 	belongs_to :user
 	validates_presence_of :content
 	validates_presence_of :title
+
+	def next
+    	comment = Comment.where("id > ?", id).first
+    	comment ? comment : Comment.first
+  	end
 end
