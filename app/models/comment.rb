@@ -9,7 +9,6 @@ class Comment < ActiveRecord::Base
     	if @comment
     		@comment
     	else
-    		binding.pry
     	 	Comment.first
   		end
   	end

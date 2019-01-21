@@ -15,7 +15,7 @@ const getIndexComments = (url) => {
 	fetch(newUrl)
 	.then(res => res.json()
 		.then(comments => {
-			$('a#comment').html('')
+			$('div#comments').html('')
 			comments.forEach((comment) => {
 				let newComment = new Comment(comment)
 				let commentHtml = newComment.formatShow()
