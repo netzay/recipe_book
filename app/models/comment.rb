@@ -6,10 +6,6 @@ class Comment < ActiveRecord::Base
 
 	def next
     	@comment = Comment.where("id > ?", id).first
-    	if @comment
-    		@comment
-    	else
-    	 	Comment.first
-  		end
+    	@comment ? @comment : Comment.first	
   	end
 end

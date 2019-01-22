@@ -1,5 +1,4 @@
 $(() => {
-	// console.log('commentsjs loaded');
 	allComments()
 	newCommentForm()
 })
@@ -50,10 +49,8 @@ const createComment = () => {
 			method: 'post',
 			data: data
 		}).done(function (response) {
-			console.log(response)
 			let newComment = new Comment(response)
 			let commentHtml = newComment.formatShow()
-			console.log(commentHtml)
 			$('div#comments').append(commentHtml)
 			$('form#new_comment').remove()
 		})
@@ -76,12 +73,7 @@ const getShowComment = (url) => {
 					let commentHtml = newComment.formatShowNext()
 					$('div#comments').append(commentHtml)
 			})
-	$('a.next').on('click', (event) => {
-		event.preventDefault()
-		let url = event.target.href
-		fetch(url)
-		console.log(url)
-	})
+
 }
 class Comment {
 	constructor(commentObj) {
