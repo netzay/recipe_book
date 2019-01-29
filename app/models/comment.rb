@@ -4,12 +4,14 @@ class Comment < ActiveRecord::Base
 	validates_presence_of :content
 	validates_presence_of :title
 
-	def next
-    	@comment = Comment.where("id > ?", id).first
-    	if @comment
-    		@comment
-    	else
-    	 	Comment.first
-  		end
-  	end
+    # def next(recipe_id)
+    #   recipe = Recipe.find_by(id: recipe_id)
+    #   @comment = Comment.where("id > ?", id).first
+    #   if @comment
+    #     @comment
+    #   else
+    #     recipe.comments.first
+    #   end
+    # end
+
 end

@@ -31,24 +31,27 @@ class CommentsController < ApplicationController
       end
     end
   end
-
-  def next
-    @comment = Recipe.find_by(params[:recipe_id]).comments.find(params[:id])  
-
-    @next_comment = @comment.next
-    render json: @next_comment
-  end
+  
+  # def next
+  #   recipe = Recipe.find_by(params[:recipe_id]) 
+    
+  #   if recipe
+  #     @comment = recipe.comments.find_by(params[:comment_id])
+  #     @next_comment = @comment.next(recipe.id)
+  #     render json: @next_comment
+  #   else
+  #     respond_to do |f|
+  #       f.html {render :index}
+  #       f.json {render json: @comment}
+  #     end
+  #   end
+  # end
 
 
   #create a new comment if the recipe id exists and attach it to that recipe id
   def new
-    # if params[:recipe_id] && !Recipe.exists?(params[:recipe_id])
-    #   redirect_to recipes_path, alert: "Recipe not found."
-    # else
       @comment = Comment.new(recipe_id: params[:recipe_id])
-      #show me new page without layout
       render :_ajax_new, layout: false
-    # end
   end
 
   #create a comment and attach it to the current user.

@@ -1,5 +1,4 @@
 $(() => {
-	// console.log('commentsjs loaded');
 	allComments()
 	newCommentForm()
 })
@@ -20,7 +19,7 @@ const getIndexComments = (url) => {
 				let newComment = new Comment(comment)
 				let commentHtml = newComment.formatShow()
 				$('div#comments').append(commentHtml)
-				showComment()
+				listenshowComment()
 			})
 		})
 	)
@@ -50,16 +49,14 @@ const createComment = () => {
 			method: 'post',
 			data: data
 		}).done(function (response) {
-			console.log(response)
 			let newComment = new Comment(response)
 			let commentHtml = newComment.formatShow()
-			console.log(commentHtml)
 			$('div#comments').append(commentHtml)
 			$('form#new_comment').remove()
 		})
 	})
 }
-const showComment = () => {
+const listenshowComment = () => {
 	$('div#comments').on('click', (event) => {
 		event.preventDefault()
 		let url = event.target.href
@@ -75,14 +72,12 @@ const getShowComment = (url) => {
 					let newComment = new Comment(comment)
 					let commentHtml = newComment.formatShowNext()
 					$('div#comments').append(commentHtml)
+			
 			})
-	$('a.next').on('click', (event) => {
-		event.preventDefault()
-		let url = event.target.href
-		fetch(url)
-		console.log(url)
-	})
+
 }
+
+
 class Comment {
 	constructor(commentObj) {
 		this.id = commentObj.id
@@ -115,8 +110,6 @@ Comment.prototype.formatIndex = function() {
 	<h4>Title: ${this.title}</h4>
 	<h4>Content: ${this.content}</h4>
 	<h4>User: ${this.user.name}</h4>
-	<a href= "/recipes/${this.recipe}/comments/${this.id}/next" data-id="${this.id} " 
-	<button class= "next">Next</button>
 	`
 	return commentHtml
 }
