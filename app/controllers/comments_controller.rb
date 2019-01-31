@@ -33,18 +33,12 @@ class CommentsController < ApplicationController
   end
   
   # def next
-  #   recipe = Recipe.find_by(params[:recipe_id]) 
-    
-  #   if recipe
-  #     @comment = recipe.comments.find_by(params[:comment_id])
-  #     @next_comment = @comment.next(recipe.id)
-  #     render json: @next_comment
-  #   else
-  #     respond_to do |f|
-  #       f.html {render :index}
-  #       f.json {render json: @comment}
-  #     end
-  #   end
+ 
+  #   @recipe = Recipe.find_by(params[:recipe_id])
+  #   @comment = @recipe.comments.find_by(params[:comment_id])
+
+  #   @next_comment = @comment.next
+  #   render json: @next_comment
   # end
 
 
@@ -78,7 +72,7 @@ class CommentsController < ApplicationController
     @recipe = find_by_id(Recipe)
     @comment = find_by_id(Comment)
     if session[:user_id] != @comment.user_id 
-      redirect_to recipe_path, alert: "Not your comment to edit."
+      redirect_to recipe_path, alert: "This is not your comment."
     else
       @comment = find_by_id(Comment)
     end
@@ -89,7 +83,7 @@ class CommentsController < ApplicationController
     @recipe = find_by_id(Recipe)
     @comment = find_by_id(Comment)
     if session[:user_id] != @comment.user_id 
-      redirect_to recipe_path, alert: "Not your comment to delete."
+      redirect_to recipe_path, alert: "This is not your comment."
     else
       @comment = find_by_id(Comment)
       @comment.destroy!

@@ -72,10 +72,19 @@ const getShowComment = (url) => {
 					let newComment = new Comment(comment)
 					let commentHtml = newComment.formatShowNext()
 					$('div#comments').append(commentHtml)
-			
+					// listenForNextComment(newUrl)
 			})
 
 }
+
+// const listenForNextComment = (newUrl) => {
+// 	$('a#comment.next').on('click', (event) => {
+// 		event.preventDefault()
+// 		let url = event.target.href
+// 		fetch(url)
+// 		console.log("url:",url)
+// 	})
+// }
 
 
 class Comment {

@@ -5,19 +5,19 @@ class SessionsController <ApplicationController
     if auth.present?
         @user = User.from_omniauth(request.env["omniauth.auth"])
         session[:user_id] = @user.id
-        redirect_to user_path(@user), notice: "You have successfully logged in"
+        redirect_to user_path(@user), notice: "You are logged in"
       end
     #if oauth is not present, find and validate user by name and password and go to users show 
     if params[:name].present?
       @user = User.find_by_name(params[:name])
       if @user && @user.authenticate(params[:password])
         session[:user_id] = @user.id
-        redirect_to user_path(@user), notice: "You have successfully logged in"
+        redirect_to user_path(@user), notice: "You are logged in"
       else
        if @user
-        flash[:alert] = "Your password is not correct"
+        flash[:alert] = "Please check your credentials"
       else 
-        flash[:alert] = "The username is invalid"
+        flash[:alert] = "Please check your credentials"
       end
       render 'new'
     end
@@ -31,7 +31,7 @@ end
 
    def destroy
     session.destroy
-    redirect_to '/', notice: "You have successfully logged out"
+    redirect_to '/', notice: "You are logged out"
   end
 
 end
