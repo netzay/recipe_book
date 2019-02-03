@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get 'recipes_most_ingredients' => 'recipes#most_ingredients'
   get '/ajax_new' => 'comments#ajax_new'
   # get '/recipes/:id/comments/:id/next' => 'comments#next'
+  get '/recipes/:id/comments/sort' => 'comments#sort'
+
 
 
   resources :users

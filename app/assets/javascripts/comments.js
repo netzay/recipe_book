@@ -3,16 +3,16 @@ $(() => {
 	newCommentForm()
 })
 const allComments = () => {
-	$('a.all_comments').on('click', (e) => {
-		e.preventDefault()
-		let url = e.target.href
+	$('a.all_comments').on('click', (event) => {
+		event.preventDefault()
+		let url = event.target.href
 		getIndexComments(url)
 	})
 }
 const getIndexComments = (url) => {
 	let newUrl = url + '.json'
 	fetch(newUrl)
-	.then(res => res.json()
+		.then(res => res.json())
 		.then(comments => {
 			$('div#comments').html('')
 			comments.forEach((comment) => {
@@ -20,10 +20,12 @@ const getIndexComments = (url) => {
 				let commentHtml = newComment.formatShow()
 				$('div#comments').append(commentHtml)
 				listenshowComment()
+				listenForSort(url)
+
 			})
 		})
-	)
 }
+
 const newCommentForm = () => {
 	$('a.new_comment').on('click', (event) => {
 		event.preventDefault()
@@ -39,10 +41,11 @@ const newCommentForm = () => {
 	})
 }
 const createComment = () => {
-	$('form#new_comment').on('submit', (event) => {
+	$('form#new_comment').on('submit', function(event) {
 		event.preventDefault()
 		event.stopPropagation()
-		let data = $('form#new_comment').serialize()
+		let data = $(this).serialize()
+		// let data = $('form#new_comment').serialize()
 		let url = event.target.baseURI + '/comments'
 		$.ajax({
 			url: url,
@@ -66,25 +69,38 @@ const listenshowComment = () => {
 const getShowComment = (url) => {
 		let newUrl = url + '.json'
 		fetch(newUrl)
-		.then(res => res.json())
+			.then(res => res.json())
 			.then(comment => {
 				$('#comments').html('')
 					let newComment = new Comment(comment)
-					let commentHtml = newComment.formatShowNext()
+					let commentHtml = newComment.formatIndex()
 					$('div#comments').append(commentHtml)
-					// listenForNextComment(newUrl)
 			})
 
 }
 
-// const listenForNextComment = (newUrl) => {
-// 	$('a#comment.next').on('click', (event) => {
-// 		event.preventDefault()
-// 		let url = event.target.href
-// 		fetch(url)
-// 		console.log("url:",url)
-// 	})
-// }
+const listenForSort = (url) => {
+	$('a.sort_comments').on('click', function(event) {
+		event.preventDefault()
+		newUrl = url + '/sort.json'
+		fetch(newUrl)
+			.then(res => res.json())
+			.then(comments => {
+				$('div#comments').html('')
+					comments.forEach((comment) => {
+						let newComment = new Comment(comment)
+						let sorted_comment = newComment.sort
+						// let commentHtml = newComment.formatShow()
+						// $('div#comments').append(commentHtml)
+						$('div#comments').append(sorted_comment)
+
+
+			})
+		})
+	})
+}
+
+
 
 
 class Comment {
@@ -95,30 +111,33 @@ class Comment {
 		this.user = commentObj.user
 		this.recipe = commentObj.recipe.id
 	}
-}
-Comment.prototype.formatShow = function () {
 
-	let commentHtml = `
-	<a href= "/recipes/${this.recipe}/comments/${this.id}" data-id="${this.id}" id= "comment"
-	<h5>${this.title}</h5><br>
-	`
-	return commentHtml
-} 
+	formatShow(){
 
-Comment.prototype.formatIndex = function() {
-	let commentHtml = `
-	<h4>Title: ${this.title}</h4>
-	<h4>Content: ${this.content}</h4>
-	<h4>User: ${this.user.name}</h4>
-	`
-	return commentHtml
-}
+		let commentHtml = `
+		<a href= "/recipes/${this.recipe}/comments/${this.id}" data-id="${this.id}" id= "comment"
+			<h5>${this.title}</h5><br>
+		`
+		return commentHtml
+	}
 
- Comment.prototype.formatShowNext = function() {
-	let commentHtml = `
-	<h4>Title: ${this.title}</h4>
-	<h4>Content: ${this.content}</h4>
-	<h4>User: ${this.user.name}</h4>
-	`
-	return commentHtml
+	formatIndex(){
+		
+		let commentHtml = `
+		<h4>Title: ${this.title}</h4>
+		<h4>Content: ${this.content}</h4>
+		<h4>User: ${this.user.name}</h4>
+		<h4>Recipe: ${this.recipe}</h4>
+		`
+		return commentHtml
+
+	}
+	formatSort(){
+		
+		let commentHtml = `
+		<a href= "/recipes/${this.recipe}/comments/${this.id}/sort" data-id="${this.id}"
+		`
+		return commentHtml
+
+	}
 }

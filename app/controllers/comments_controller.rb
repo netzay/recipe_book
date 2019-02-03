@@ -5,42 +5,45 @@ class CommentsController < ApplicationController
     render :_ajax_new
   end
 
+  def sort
+    @recipe = find_by_id(Recipe)
+
+    @comments = @recipe.comments
+
+     respond_to do |f|
+      f.html {render :show}
+      f.json {render json: @comments.sorted}
+    end
+  
+  end
+
   def index
     @recipe = Recipe.find(params[:recipe_id])
-    # @comments = Recipe.find(params[:recipe_id]).comments.all
-    @comments = @recipe.comments
+    #@comments = Recipe.find(params[:recipe_id]).comments.all
+    #@comments = @recipe.comments
     respond_to do |f|
       f.html {render :index}
       f.json {render json: @recipe.comments}
     end
   end
+
   #find comment based on recipe id
   def show
-    @recipe = find_by_id(Recipe)
-    @comments = Recipe.find(params[:recipe_id]).comments.all
-    @comment = Recipe.find(params[:recipe_id]).comments.find(params[:id])  
+    @comments = find_by_id(Recipe).comments.all
+    @comment = find_by_id(Recipe).comments.find(params[:id])  
     if @comment  
       respond_to do |f|
         f.html {render :index}
         f.json {render json: @comment}
       end
     else
+      @comments.sort
       respond_to do |f|
         f.html {render :index}
         f.json {render json: @comments}
       end
     end
   end
-  
-  # def next
- 
-  #   @recipe = Recipe.find_by(params[:recipe_id])
-  #   @comment = @recipe.comments.find_by(params[:comment_id])
-
-  #   @next_comment = @comment.next
-  #   render json: @next_comment
-  # end
-
 
   #create a new comment if the recipe id exists and attach it to that recipe id
   def new

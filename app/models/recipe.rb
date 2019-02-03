@@ -38,10 +38,10 @@ class Recipe < ActiveRecord::Base
     end
   end
 
-  def next
-    recipe = Recipe.where("id > ?", id).first
-    recipe ? recipe : Recipe.first
-  end
+  # def next
+  #   recipe = Recipe.where("id > ?", id).first
+  #   recipe ? recipe : Recipe.first
+  # end
 
   #deletes ingredients to avoid duplicating entire recipe when editing
   def delete_ingredients
