@@ -89,11 +89,8 @@ const listenForSort = (url) => {
 				$('div#comments').html('')
 					comments.forEach((comment) => {
 						let newComment = new Comment(comment)
-						let sorted_comment = newComment.sort
-						// let commentHtml = newComment.formatShow()
-						// $('div#comments').append(commentHtml)
-						$('div#comments').append(sorted_comment)
-
+						let commentHtml = newComment.formatShow()
+						$('div#comments').append(commentHtml)
 
 			})
 		})

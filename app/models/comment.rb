@@ -4,7 +4,7 @@ class Comment < ActiveRecord::Base
 	validates_presence_of :content
 	validates_presence_of :title
 
-	scope :sorted, -> { Comment.order("title ASC") }
+	scope :sorted, -> { Comment.order("LOWER(title) ASC") }
 
 
 
