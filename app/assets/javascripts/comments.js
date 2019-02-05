@@ -68,6 +68,7 @@ const listenshowComment = () => {
 }
 const getShowComment = (url) => {
 		let newUrl = url + '.json'
+		console.log("newUrl", newUrl)
 		fetch(newUrl)
 			.then(res => res.json())
 			.then(comment => {
@@ -96,9 +97,6 @@ const listenForSort = (url) => {
 		})
 	})
 }
-
-
-
 
 class Comment {
 	constructor(commentObj) {

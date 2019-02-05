@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   get '/recipes/:id/comments/sort' => 'comments#sort'
 
 
-
   resources :users
   resources :ingredients
 

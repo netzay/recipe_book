@@ -7,9 +7,7 @@ class CommentsController < ApplicationController
 
   def sort
     @recipe = find_by_id(Recipe)
-
     @comments = @recipe.comments
-
      respond_to do |f|
       f.html {render :show}
       f.json {render json: @comments.sorted}
@@ -19,8 +17,6 @@ class CommentsController < ApplicationController
 
   def index
     @recipe = Recipe.find(params[:recipe_id])
-    #@comments = Recipe.find(params[:recipe_id]).comments.all
-    #@comments = @recipe.comments
     respond_to do |f|
       f.html {render :index}
       f.json {render json: @recipe.comments}
@@ -29,15 +25,15 @@ class CommentsController < ApplicationController
 
   #find comment based on recipe id
   def show
-    @comments = find_by_id(Recipe).comments.all
-    @comment = find_by_id(Recipe).comments.find(params[:id])  
+    @comments = Recipe.find(params[:recipe_id]).comments.all
+    @comment = Recipe.find(params[:recipe_id]).comments.find(params[:id])  
     if @comment  
       respond_to do |f|
         f.html {render :index}
         f.json {render json: @comment}
       end
     else
-      @comments.sort
+      @comments
       respond_to do |f|
         f.html {render :index}
         f.json {render json: @comments}
