@@ -12,18 +12,18 @@ const allComments = () => {
 const getIndexComments = (url) => {
 	let newUrl = url + '.json'
 	fetch(newUrl)
-		.then(res => res.json())
-		.then(comments => {
-			$('div#comments').html('')
-			comments.forEach((comment) => {
-				let newComment = new Comment(comment)
-				let commentHtml = newComment.formatShow()
-				$('div#comments').append(commentHtml)
-				listenshowComment()
-				listenForSort(url)
+	.then(res => res.json())
+	.then(comments => {
+		$('div#comments').html('')
+		comments.forEach((comment) => {
+			let newComment = new Comment(comment)
+			let commentHtml = newComment.formatShow()
+			$('div#comments').append(commentHtml)
+			listenshowComment()
+			listenForSort(url)
 
-			})
 		})
+	})
 }
 
 const newCommentForm = () => {
@@ -67,16 +67,16 @@ const listenshowComment = () => {
 	})
 }
 const getShowComment = (url) => {
-		let newUrl = url + '.json'
-		console.log("newUrl", newUrl)
-		fetch(newUrl)
-			.then(res => res.json())
-			.then(comment => {
-				$('#comments').html('')
-					let newComment = new Comment(comment)
-					let commentHtml = newComment.formatIndex()
-					$('div#comments').append(commentHtml)
-			})
+	let newUrl = url + '.json'
+	console.log("newUrl", newUrl)
+	fetch(newUrl)
+	.then(res => res.json())
+	.then(comment => {
+		$('#comments').html('')
+		let newComment = new Comment(comment)
+		let commentHtml = newComment.formatIndex()
+		$('div#comments').append(commentHtml)
+	})
 
 }
 
@@ -85,13 +85,27 @@ const listenForSort = (url) => {
 		event.preventDefault()
 		newUrl = url + '/sort.json'
 		fetch(newUrl)
-			.then(res => res.json())
-			.then(comments => {
-				$('div#comments').html('')
-					comments.forEach((comment) => {
-						let newComment = new Comment(comment)
-						let commentHtml = newComment.formatShow()
-						$('div#comments').append(commentHtml)
+		.then(res => res.json())
+		.then(recipe => {
+			console.log("recipe", recipe)
+			$('div#comments').html('')
+			recipe.comments.sort(function(a, b) {
+				  var nameA = a.title.toUpperCase(); // ignore upper and lowercase
+				  var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+				  if (nameA < nameB) {
+				  	return -1;
+				  }
+				  if (nameA > nameB) {
+				  	return 1;
+				  }
+				  // names must be equal
+				  return 0;
+				});
+
+			recipe.comments.forEach((comment) => {
+				let newComment = new Comment(comment)
+				let commentHtml = newComment.formatShow()
+				$('div#comments').append(commentHtml)
 
 			})
 		})
@@ -103,15 +117,15 @@ class Comment {
 		this.id = commentObj.id
 		this.title = commentObj.title
 		this.content = commentObj.content
-		this.user = commentObj.user
-		this.recipe = commentObj.recipe.id
+		this.user = commentObj.user_id
+		this.recipe = commentObj.recipe_id
 	}
 
 	formatShow(){
 
 		let commentHtml = `
 		<a href= "/recipes/${this.recipe}/comments/${this.id}" data-id="${this.id}" id= "comment"
-			<h5>${this.title}</h5><br>
+		<h5>${this.title}</h5><br>
 		`
 		return commentHtml
 	}

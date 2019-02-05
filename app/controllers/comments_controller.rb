@@ -7,10 +7,9 @@ class CommentsController < ApplicationController
 
   def sort
     @recipe = find_by_id(Recipe)
-    @comments = @recipe.comments
      respond_to do |f|
       f.html {render :show}
-      f.json {render json: @comments.sorted}
+      f.json {render json: @recipe}
     end
   
   end
