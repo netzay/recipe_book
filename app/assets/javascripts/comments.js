@@ -98,7 +98,7 @@ const listenForSort = (url) => {
 				  if (nameA > nameB) {
 				  	return 1;
 				  }
-				  // names must be equal
+				  // titles must be equal
 				  return 0;
 				});
 
