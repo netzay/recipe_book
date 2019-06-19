@@ -4,8 +4,8 @@ This app provides a quick easy way to store recipes in one place. Also, view and
 
 ## Installation
 
-    $ npm install recipe_book
-
+    $ clone repo, run rake db:migrate, rails s to spin up server
+    
 ## Usage
 
 - Add recipes using exisiting ingredients or add new ingredients.

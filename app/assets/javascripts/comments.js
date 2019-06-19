@@ -12,18 +12,18 @@ const allComments = () => {
 const getIndexComments = (url) => {
 	let newUrl = url + '.json'
 	fetch(newUrl)
-	.then(res => res.json())
-	.then(comments => {
-		$('div#comments').html('')
-		comments.forEach((comment) => {
-			let newComment = new Comment(comment)
-			let commentHtml = newComment.formatShow()
-			$('div#comments').append(commentHtml)
-			listenshowComment()
-			listenForSort(url)
+		.then(res => res.json())
+		.then(comments => {
+			$('div#comments').html('')
+			comments.forEach((comment) => {
+				let newComment = new Comment(comment)
+				let commentHtml = newComment.formatShow()
+				$('div#comments').append(commentHtml)
+				listenshowComment()
+				listenForSort(url)
 
+			})
 		})
-	})
 }
 
 const newCommentForm = () => {
@@ -41,7 +41,7 @@ const newCommentForm = () => {
 	})
 }
 const createComment = () => {
-	$('form#new_comment').on('submit', function(event) {
+	$('form#new_comment').on('submit', function (event) {
 		event.preventDefault()
 		event.stopPropagation()
 		let data = $(this).serialize()
@@ -70,45 +70,44 @@ const getShowComment = (url) => {
 	let newUrl = url + '.json'
 	console.log("newUrl", newUrl)
 	fetch(newUrl)
-	.then(res => res.json())
-	.then(comment => {
-		$('#comments').html('')
-		let newComment = new Comment(comment)
-		let commentHtml = newComment.formatIndex()
-		$('div#comments').append(commentHtml)
-	})
+		.then(res => res.json())
+		.then(comment => {
+			$('#comments').html('')
+			let newComment = new Comment(comment)
+			let commentHtml = newComment.formatIndex()
+			$('div#comments').append(commentHtml)
+		})
 
 }
 
 const listenForSort = (url) => {
-	$('a.sort_comments').on('click', function(event) {
+	$('a.sort_comments').on('click', function (event) {
 		event.preventDefault()
 		newUrl = url + '/sort.json'
 		fetch(newUrl)
-		.then(res => res.json())
-		.then(recipe => {
-			console.log("recipe", recipe)
-			$('div#comments').html('')
-			recipe.comments.sort(function(a, b) {
-				  var nameA = a.title.toUpperCase(); // ignore upper and lowercase
-				  var nameB = b.title.toUpperCase(); // ignore upper and lowercase
-				  if (nameA < nameB) {
-				  	return -1;
-				  }
-				  if (nameA > nameB) {
-				  	return 1;
-				  }
-				  // titles must be equal
-				  return 0;
+			.then(res => res.json())
+			.then(recipe => {
+				console.log("recipe", recipe)
+				$('div#comments').html('')
+				recipe.comments.sort(function (a, b) {
+					let A = a.title.toUpperCase();
+					let B = b.title.toUpperCase();
+					if (A < B) {
+						return -1;
+					}
+					if (A > B) {
+						return 1;
+					}
+					return 0;
 				});
 
-			recipe.comments.forEach((comment) => {
-				let newComment = new Comment(comment)
-				let commentHtml = newComment.formatShow()
-				$('div#comments').append(commentHtml)
+				recipe.comments.forEach((comment) => {
+					let newComment = new Comment(comment)
+					let commentHtml = newComment.formatShow()
+					$('div#comments').append(commentHtml)
 
+				})
 			})
-		})
 	})
 }
 
@@ -121,7 +120,7 @@ class Comment {
 		this.recipe = commentObj.recipe_id
 	}
 
-	formatShow(){
+	formatShow() {
 
 		let commentHtml = `
 		<a href= "/recipes/${this.recipe}/comments/${this.id}" data-id="${this.id}" id= "comment"
@@ -130,8 +129,8 @@ class Comment {
 		return commentHtml
 	}
 
-	formatIndex(){
-		
+	formatIndex() {
+
 		let commentHtml = `
 		<h4>Title: ${this.title}</h4>
 		<h4>Content: ${this.content}</h4>
@@ -141,8 +140,8 @@ class Comment {
 		return commentHtml
 
 	}
-	formatSort(){
-		
+	formatSort() {
+
 		let commentHtml = `
 		<a href= "/recipes/${this.recipe}/comments/${this.id}/sort" data-id="${this.id}"
 		`
