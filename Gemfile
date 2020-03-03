@@ -4,19 +4,21 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.3.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-
+gem 'omniauth', '~> 1.6', '>= 1.6.1'
 gem 'rails', '~> 5.2.1'
-# gem 'omniauth-oauth2', '~> 1.3.1'
-# gem "omniauth-google-oauth2", "~> 0.2.1"
+gem 'omniauth-oauth2', '~> 1.3.1'
+gem "omniauth-google-oauth2", "~> 0.2.1"
 #gem 'rack', '~> 2.0.6'
 gem "rack", ">= 2.0.8"
 gem "rdoc"
 gem 'active_model_serializers'
+gem "loofah", ">= 2.3.1"
+
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '>= 3.12.4'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -41,7 +43,7 @@ gem 'jquery-rails'
 gem 'bcrypt', '~> 3.1.7'
 gem 'pry'
 gem 'dotenv-rails'
-gem 'nokogiri', '~> 1.10.4'
+gem 'nokogiri', '~> 1.10.8'
 gem "rubyzip", ">= 1.3.0"
 
 # Use ActiveStorage variant
