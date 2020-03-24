@@ -14,6 +14,7 @@ gem "rdoc"
 gem 'active_model_serializers'
 gem "loofah", ">= 2.3.1"
 
+gem "actionview", ">= 5.2.4.2"
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
